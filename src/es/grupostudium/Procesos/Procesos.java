@@ -21,6 +21,10 @@ public class Procesos extends JFrame {
 	private BufferedReader bufferedreader;
 	private String linea_texto;
 	private List list;
+	private long pidBlocDeNotas;
+	private long pidPaint;
+	private long pidJuego;
+	private long pidGestion;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -67,29 +71,23 @@ public class Procesos extends JFrame {
 		btn_Bloc_De_Notas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				try
-				{                              
-					Runtime runtime = Runtime.getRuntime();//CREAMOS EL RUNTIME
-					Process process = runtime.exec("cmd /c notepad");//EJECUTAMOS EN EL CMD
+				
+					try
+					{
+						process = new ProcessBuilder("notepad").start();
+						pidBlocDeNotas = process.pid();
+											
+					} catch (IOException e1) {
+						
+						e1.printStackTrace();
+					}
+					
 					System.out.println("-----------------------------------");
 					System.out.println("cmd /c notepad");
 					System.out.println("-----------------------------------");
 					btn_Bloc_De_Notas.setEnabled(false); //APAGAMOS EL BOTON
-
-					retorno = process.waitFor(); //RECOGEMOS EL VALOR DE RETORNO DEL PROGRAMA, SI SE CIERRA POR CONVENCIÓN ES UN 0
-
-					if(retorno==0)
-					{
-						btn_Bloc_De_Notas.setEnabled(true); //ENCENDEMOS EL BOTON CUANDO ACABA EL PROCESO
-					}
-
-				}catch (IOException e1)
-				{              
-					e1.printStackTrace();
-				} catch (InterruptedException e1)
-				{
-					e1.printStackTrace();
-				}
+			
+				
 			}
 		});
 		btn_Bloc_De_Notas.setForeground(new Color(255, 255, 255));
@@ -180,7 +178,7 @@ public class Procesos extends JFrame {
 					Runtime runtime = Runtime.getRuntime();//CREAMOS EL RUNTIME
 					Process process = runtime.exec("cmd /c C:\\Users\\david\\Desktop\\Snake.jar");//EJECUTAMOS EN EL CMD
 					System.out.println("-----------------------------------");
-					System.out.println("cmd /c C:\\Users\\david\\Desktop\\Snake.jar");
+					System.out.println("cmd /c C:" + File.separator +"Users\\david\\Desktop\\Snake.jar");
 					System.out.println("-----------------------------------");
 					btn_Juego.setEnabled(false); //APAGAMOS EL BOTON
 
